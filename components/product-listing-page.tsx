@@ -22,11 +22,9 @@ export default function ProductListingPage({ initialProducts, categories, hasErr
   const [favorites, setFavorites] = useState<number[]>([])
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
   const [sortBy, setSortBy] = useState<"relevance" | "price-asc" | "price-desc">("relevance")
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     setFavorites(getFavoritesFromStorage())
-    setIsLoading(false)
   }, [])
 
   const filteredProducts = useMemo(() => {
@@ -62,32 +60,6 @@ export default function ProductListingPage({ initialProducts, categories, hasErr
     saveFavoritesToStorage(updated)
   }
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <header className="border-b bg-card">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">Product Explorer</h1>
-              <p className="text-muted-foreground">Discover and manage your favorite products</p>
-            </div>
-          </div>
-        </header>
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <aside className="lg:col-span-1" />
-            <section className="lg:col-span-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {[...Array(6)].map((_, i) => (
-                  <ProductSkeleton key={i} />
-                ))}
-              </div>
-            </section>
-          </div>
-        </main>
-      </div>
-    )
-  }
 
   if (hasError && initialProducts.length === 0) {
     return (
